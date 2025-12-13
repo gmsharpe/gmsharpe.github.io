@@ -14,7 +14,7 @@ const config = {
   tagline: 'Backend Engineer & Cloud Solutions Architect',
   
   url: 'https://gmsharpe.github.io', // REPLACE 'your-username'
-  baseUrl: '/gmsharpe/',            // REPLACE 'your-repo-name' (must end with /)
+  baseUrl: '/',            // REPLACE 'your-repo-name' (must end with /)
   
   organizationName: 'gmsharpe',      // REPLACE 'your-username' (GitHub User)
   projectName: 'gmsharpe',          // REPLACE 'your-repo-name' (GitHub Repo)
