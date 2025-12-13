@@ -66,12 +66,6 @@ const config = {
         items: [
           // --- NAVIGATION LINKS ---
           {
-            type: 'docSidebar',
-            sidebarId: 'tutorialSidebar',
-            position: 'left',
-            label: 'Articles', // Renamed from "Tutorial" as requested
-          },
-          {
             to: '/about',     // Links to src/pages/about.md
             label: 'About',
             position: 'left',
@@ -90,10 +84,6 @@ const config = {
           {
             title: 'Content',
             items: [
-              {
-                label: 'Technical Articles',
-                to: '/docs/intro',
-              },
               {
                 label: 'About Me',
                 to: '/about',
