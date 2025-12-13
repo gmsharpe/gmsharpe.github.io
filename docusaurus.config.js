@@ -13,7 +13,7 @@ const config = {
   title: 'Your Name',                // REPLACE WITH YOUR NAME
   tagline: 'Backend Engineer & Cloud Solutions Architect',
   
-  url: 'https://gmsharpe.github.io'
+  url: 'https://gmsharpe.github.io',
   baseUrl: '/',
   
   organizationName: 'gmsharpe',      
