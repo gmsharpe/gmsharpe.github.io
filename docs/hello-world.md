@@ -22,6 +22,7 @@ def hello_world():
 
 if __name__ == "__main__":
     hello_world()
+```
 
 ### Terraform Test
 ```terraform
@@ -31,5 +32,8 @@ resource "aws_s3_bucket" "example" {
   tags = {
     Name        = "My bucket"
     Environment = "Dev"
+  }
+}
+```
   }
 }
