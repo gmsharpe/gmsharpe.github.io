@@ -10,7 +10,7 @@ const config = {
   // -------------------------------------------------------------------------
   // 1. GITHUB PAGES DEPLOYMENT SETTINGS (CRITICAL)
   // -------------------------------------------------------------------------
-  title: 'Your Name',                // REPLACE WITH YOUR NAME
+  title: 'Gary Sharpe',
   tagline: 'Backend Engineer & Cloud Solutions Architect',
   
   url: 'https://gmsharpe.github.io',
@@ -58,7 +58,7 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'Gary Sharpe', // Your name is strong enough as a logo
+        title: 'Gary Sharpe',
         logo: {
           alt: 'Logo',
           src: 'img/bear_state_swings.svg', // Remove this line if you don't have a custom logo yet
@@ -109,7 +109,7 @@ const config = {
           },
         ],
         // --- LICENSE DECLARATION ---
-        copyright: `Copyright © ${new Date().getFullYear()} Your Name. <br/> 
+        copyright: `Copyright © ${new Date().getFullYear()} Gary Sharpe. <br/> 
         Except where otherwise noted, content is CC BY 4.0; Code is MIT.`,
       },
       prism: {
