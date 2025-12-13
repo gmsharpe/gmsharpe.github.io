@@ -13,12 +13,12 @@ const config = {
   title: 'Your Name',                // REPLACE WITH YOUR NAME
   tagline: 'Backend Engineer & Cloud Solutions Architect',
   
-  url: 'https://gmsharpe.github.io', // REPLACE 'your-username'
-  baseUrl: '/',            // REPLACE 'your-repo-name' (must end with /)
+  url: 'https://gmsharpe.github.io'
+  baseUrl: '/',
   
-  organizationName: 'gmsharpe',      // REPLACE 'your-username' (GitHub User)
-  projectName: 'gmsharpe.github.io',          // REPLACE 'your-repo-name' (GitHub Repo)
-  deploymentBranch: 'gh-pages',           // The branch used for deployment
+  organizationName: 'gmsharpe',      
+  projectName: 'gmsharpe.github.io',
+  deploymentBranch: 'gh-pages',
   trailingSlash: false,
 
   onBrokenLinks: 'throw',
