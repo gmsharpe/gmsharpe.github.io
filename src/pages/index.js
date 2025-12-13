@@ -16,7 +16,7 @@ function HomepageHeader() {
           <div className="col col--6" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
             <h1 className="hero__title">{siteConfig.title}</h1>
             <p className="hero__subtitle">{siteConfig.tagline}</p>
-            <div className={styles.buttons} style={{marginTop: '20px'}}>
+            <div style={{marginTop: '20px'}}>
               <Link
                 className="button button--primary button--lg"
                 to="/blog">
