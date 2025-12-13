@@ -17,7 +17,7 @@ const config = {
   baseUrl: '/',            // REPLACE 'your-repo-name' (must end with /)
   
   organizationName: 'gmsharpe',      // REPLACE 'your-username' (GitHub User)
-  projectName: 'gmsharpe',          // REPLACE 'your-repo-name' (GitHub Repo)
+  projectName: 'gmsharpe.github.io',          // REPLACE 'your-repo-name' (GitHub Repo)
   deploymentBranch: 'gh-pages',           // The branch used for deployment
   trailingSlash: false,
 
