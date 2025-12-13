@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+.pnp
+.pnp.js
+
+# Production build output
+build/
+
+# Generated files
+.docusaurus/
+.cache-loader/
+
+# System files
+.DS_Store
+Thumbs.db
