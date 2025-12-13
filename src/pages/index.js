@@ -10,23 +10,24 @@ import Layout from '@theme/Layout';
 function HomepageHeader() {
   const {siteConfig} = useDocusaurusContext();
   return (
-    <header className={clsx('hero hero--primary')} style={{padding: '4rem 0', textAlign: 'center'}}>
+    <header className={clsx('hero hero--dark')} style={{backgroundColor: '#1b1b1d', color: 'white'}}>
       <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div style={{marginTop: '2rem'}}>
-          {/* LINK UPDATED: Changed from /docs/intro to /blog to fix build error */}
-          <Link
-            className="button button--secondary button--lg"
-            to="/blog">
-            Read Technical Articles
-          </Link>
-          <span style={{ margin: '0 10px' }}></span> 
-          <Link
-            className="button button--secondary button--lg"
-            to="/about">
-            About Me
-          </Link>
+        <div className="row">
+          <div className="col col--6" style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+            <h1 className="hero__title">{siteConfig.title}</h1>
+            <p className="hero__subtitle">{siteConfig.tagline}</p>
+            <div className={styles.buttons} style={{marginTop: '20px'}}>
+              <Link
+                className="button button--primary button--lg"
+                to="/blog">
+                Read My Articles
+              </Link>
+            </div>
+          </div>
+          <div className="col col--6" style={{textAlign: 'center'}}>
+            {/* If you want your face here, uncomment below */}
+            {/* <img src="/img/bio_portrait.webp" style={{borderRadius: '50%', maxWidth: '250px', border: '4px solid #25c2a0'}} /> */}
+          </div>
         </div>
       </div>
     </header>

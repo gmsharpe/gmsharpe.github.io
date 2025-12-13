@@ -58,10 +58,10 @@ const config = {
       // Replace with your project's social card
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
-        title: 'Your Name', // Appears in top left
+        title: 'Gary Sharpe', // Your name is strong enough as a logo
         logo: {
-          alt: 'My Site Logo',
-          src: 'img/logo.svg', // You can replace this file in static/img/ later
+          alt: 'Logo',
+          src: 'img/bear_state_swings.svg', // Remove this line if you don't have a custom logo yet
         },
         items: [
           // --- NAVIGATION LINKS ---
