@@ -59,10 +59,6 @@ const config = {
       image: 'img/docusaurus-social-card.jpg',
       navbar: {
         title: 'Gary Sharpe',
-        logo: {
-          alt: 'Logo',
-          src: 'img/bear_state_swings.svg', // Remove this line if you don't have a custom logo yet
-        },
         items: [
           // --- NAVIGATION LINKS ---
           {
