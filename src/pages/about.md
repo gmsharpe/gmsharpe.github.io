@@ -4,7 +4,17 @@ description: Bio and background information
 hide_table_of_contents: false
 ---
 
-<img src="path/to/image_2403f3.jpg" align="right" width="280" alt="Profile photo in the garden" style="margin-left: 20px; margin-bottom: 20px; border-radius: 8px;" />
+<img 
+  src="path/to/image_2403f3.jpg" 
+  align="right" 
+  width="280" 
+  alt="Profile photo in the garden" 
+  style={{
+    marginLeft: '20px', 
+    marginBottom: '20px', 
+    borderRadius: '8px'
+  }} 
+/>
 
 For over 15 years, I've worked on building back-end systems for moving, munging and synchronizing data from one end of the enterprise to the other.
 
