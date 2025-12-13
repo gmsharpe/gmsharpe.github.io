@@ -5,7 +5,7 @@ hide_table_of_contents: false
 ---
 
 <img 
-  src="path/to/image_2403f3.jpg" 
+  src="/img/bio_portrait.webp" 
   align="right" 
   width="280" 
   alt="Profile photo in the garden" 

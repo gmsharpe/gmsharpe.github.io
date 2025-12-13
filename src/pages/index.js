@@ -15,9 +15,10 @@ function HomepageHeader() {
         <h1 className="hero__title">{siteConfig.title}</h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div style={{marginTop: '2rem'}}>
+          {/* LINK UPDATED: Changed from /docs/intro to /blog to fix build error */}
           <Link
             className="button button--secondary button--lg"
-            to="/docs/intro">
+            to="/blog">
             Read Technical Articles
           </Link>
           <span style={{ margin: '0 10px' }}></span> 
