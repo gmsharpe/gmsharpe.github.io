@@ -353,73 +353,121 @@ print(result.name)  # Output: "weather"
 
 ## Choosing the Right Approach
 
-**Quick decision matrix:**
+With multiple options across different paradigms, choosing the right approach depends on your constraints and requirements. Here's a comprehensive guide:
 
-### Zero-Shot Options (No Examples Required)
+### Quick Decision Tree
 
-**Zero-Shot: Large Local Model (BART)**
-- Accuracy: ~92%
-- Model size: ~1.3 GB (6-8 GB RAM when loaded)
-- Speed: Slower (100-500ms per inference)
-- Use when: Maximum accuracy needed, privacy critical, stable intents
-- Deployment: Self-hosted, offline
-- Tradeoff: Highest resource use
+**Start here:** What's your primary constraint?
 
+1. **Building an agentic system with multiple tools?**
+   - → **Semantic Router** (with HuggingFaceEncoder for local, or OpenAIEncoder for API)
+   - Best for: Tool routing, multi-agent systems, declarative route definitions
+   
+2. **Need maximum accuracy (90%+) and budget allows?**
+   - → **Zero-Shot Large/Medium Local Model** OR **Remote API (GPT-4/Claude)**
+   - Best for: Production systems where accuracy is critical
+   
+3. **Need privacy/offline + high accuracy?**
+   - → **Zero-Shot Medium Local Model** (DeBERTa-v3-base) OR **SentenceTransformers**
+   - Best for: Enterprise deployments, sensitive data, air-gapped systems
+   
+4. **Want control over intent boundaries?**
+   - → **SentenceTransformers** (manual implementation)
+   - Best for: When you need examples to define precise boundaries
+   
+5. **Severe resource constraints (mobile/edge)?**
+   - → **FastText** OR **Zero-Shot Small Model**
+   - Best for: IoT devices, mobile apps, embedded systems
+   
+6. **Frequently changing intents?**
+   - → **Zero-Shot** (any variant) OR **Semantic Router**
+   - Best for: Rapid prototyping, evolving requirements
 
-**Zero-Shot: Medium Local Model (DeBERTa-v3-base)**
-- Accuracy: ~90%
-- Model size: ~700 MB (4-6 GB RAM when loaded)
-- Speed: Moderate (50-200ms per inference)
-- Use when: Good accuracy/resource balance, privacy important
-- Deployment: Self-hosted, offline
-- Recommendation: Often the best choice for production systems
-- Tradeoff: More resources than SentenceTransformers but more flexible
+### Detailed Comparison Matrix
 
-**Zero-Shot: Small Local Model (DeBERTa-v3-small)**
-- Accuracy: ~88%
-- Model size: ~180 MB (2-3 GB RAM when loaded)
-- Speed: Fast (30-100ms per inference)
-- Use when: Limited resources, still need high accuracy
-- Deployment: Self-hosted, offline
-- Tradeoff: Slightly lower accuracy than large models
+#### Zero-Shot Approaches (No Examples Needed)
 
-**Zero-Shot: Remote API (OpenAI, Claude, Hugging Face)**
-- Accuracy: 92-95%+ (depends on model)
-- Model size: Zero local overhead
-- Speed: Slower (200ms-1s per inference, includes network latency)
-- Use when: Maximum flexibility, complex reasoning needed, no privacy concerns
-- Deployment: Cloud-based, pay-per-use
-- Cost: $0.01-0.10 per classification
-- Tradeoff: Ongoing costs, internet dependency, data privacy
+| Option | Accuracy | Model Size | RAM | Speed | Cost | Best For |
+|--------|----------|------------|-----|-------|------|----------|
+| **Large Local (BART)** | ~92% | 1.3 GB | 6-8 GB | 100-500ms | Free | Maximum accuracy, stable production |
+| **Medium Local (DeBERTa)** | ~90% | 700 MB | 4-6 GB | 50-200ms | Free | **Recommended** for most production |
+| **Small Local (DeBERTa)** | ~88% | 180 MB | 2-3 GB | 30-100ms | Free | Resource-constrained but accurate |
+| **Remote API** | 92-95%+ | 0 | 0 | 200ms-1s | $0.01-0.10/call | Maximum flexibility, complex reasoning |
 
-### Embedding-Based Options (Require Examples)
+#### Embedding Approaches (Examples Required)
 
-**SentenceTransformers (MiniLM)**
-- Accuracy: 85-90%
-- Model size: ~60 MB
-- Speed: Fast (10-50ms per inference)
-- Use when: Production systems, good accuracy/resource balance, need examples for control
-- Deployment: Self-hosted, offline
-- Recommendation: Best overall choice for most production use cases
-- Tradeoff: Requires examples to define intent boundaries
+| Option | Accuracy | Model Size | RAM | Speed | Cost | Best For |
+|--------|----------|------------|-----|-------|------|----------|
+| **SentenceTransformers** | 85-90% | 60 MB | ~500 MB | 10-50ms | Free | **Recommended** general purpose |
+| **FastText** | 60-70% | 50-200 MB | ~300 MB | &lt;5ms | Free | Ultra-lightweight, constrained vocab |
 
-**FastText (Pretrained Embeddings)**
-- Accuracy: 60-70%
-- Model size: Under 200 MB (quantized: under 50 MB)
-- Speed: Fastest (&lt;5ms per inference)
-- Use when: Edge devices, mobile apps, severely resource-constrained environments
-- Deployment: Self-hosted, offline
-- Tradeoff: Lowest accuracy, word-level semantics only
+#### Framework Approaches
 
-### Decision Process
+| Option | Accuracy | Model Size | RAM | Speed | Cost | Best For |
+|--------|----------|------------|-----|-------|------|----------|
+| **Semantic Router + HF** | 85-90% | 90 MB | ~600 MB | 15-60ms | Free | Agent routing, declarative |
+| **Semantic Router + OpenAI** | 92-95% | 0 | 0 | 200ms-1s | $0.0001/call | Agent routing, easiest setup |
 
-1. **Building an AI agent with tool routing?** → Semantic Router for declarative routing with minimal boilerplate
-2. **Maximum accuracy + no privacy concerns?** → Remote API (OpenAI/Claude) if budget allows
-3. **Need high accuracy (90%+) with privacy?** → Zero-Shot medium/large local model or SentenceTransformers
-4. **Want to define boundaries with examples?** → SentenceTransformers (best accuracy/resource) or FastText (most lightweight)
-5. **Severe resource constraints?** → FastText or Zero-Shot small model
-6. **Frequently changing intents?** → Zero-Shot (any size) for maximum flexibility
-7. **Best overall production balance?** → SentenceTransformers or Zero-Shot medium local model
+### Common Scenarios
+
+**Scenario 1: Building a chatbot for customer support**
+- **Recommendation:** SentenceTransformers or Zero-Shot Medium
+- **Why:** Need good accuracy, privacy may matter, moderate resources available
+- **Example setup:** 5-10 intents (returns, orders, shipping, etc.)
+
+**Scenario 2: AI agent routing system (tools/agents selection)**
+- **Recommendation:** Semantic Router with HuggingFaceEncoder
+- **Why:** Declarative routes, built-in fallbacks, local/free
+- **Example setup:** 3-8 routes (web_search, calculator, database_query, etc.)
+
+**Scenario 3: Mobile app with limited resources**
+- **Recommendation:** FastText
+- **Why:** Smallest footprint, fastest inference, works on device
+- **Example setup:** 3-5 simple intents with predictable language
+
+**Scenario 4: Research/prototyping with changing requirements**
+- **Recommendation:** Zero-Shot (any size) or Semantic Router
+- **Why:** No need to collect examples, easy to add/change intents
+- **Example setup:** Rapidly test different intent structures
+
+**Scenario 5: High-accuracy production system (finance, healthcare)**
+- **Recommendation:** Zero-Shot Large Local or Remote API
+- **Why:** Maximum accuracy, can afford resources/costs
+- **Example setup:** Critical decision-making with audit requirements
+
+**Scenario 6: Edge device (IoT, embedded system)**
+- **Recommendation:** FastText (quantized)
+- **Why:** Runs on minimal hardware (&lt;50MB, &lt;300MB RAM)
+- **Example setup:** Simple command recognition on device
+
+### Making the Final Choice
+
+**Priority: Accuracy**
+- First choice: Zero-Shot Large Local or Remote API
+- Second choice: Zero-Shot Medium or SentenceTransformers
+- Third choice: FastText
+
+**Priority: Cost (minimize)**
+- First choice: FastText (smallest resources)
+- Second choice: SentenceTransformers or Zero-Shot Small
+- Third choice: Zero-Shot Medium/Large
+- Avoid: Remote APIs (ongoing costs)
+
+**Priority: Privacy/Offline**
+- First choice: SentenceTransformers or Zero-Shot Medium
+- Second choice: FastText or Zero-Shot Small/Large
+- Avoid: Remote APIs (data leaves your system)
+
+**Priority: Development Speed**
+- First choice: Semantic Router (declarative, minimal code)
+- Second choice: Zero-Shot (no examples needed)
+- Third choice: SentenceTransformers (need examples)
+- Last choice: FastText (need examples + manual similarity)
+
+**Priority: Flexibility (changing intents)**
+- First choice: Zero-Shot (any size) or Semantic Router
+- Second choice: SentenceTransformers (easy to update examples)
+- Last choice: FastText (requires recomputing embeddings)
 
 ### Tips for Improving Accuracy
 
@@ -427,6 +475,7 @@ print(result.name)  # Output: "weather"
 - Consider a hybrid approach: first do nearest-neighbor embedding matching, then optionally pass the top candidate to a small reasoning or zero-shot model to disambiguate
 - Use a similarity threshold and fallback mechanism: if the match is too weak, ask the user for clarification rather than guessing
 - Test your approach on representative user inputs before deployment
+- For production: A/B test different approaches to see which works best for your specific use case
 
 ## Complete Working Examples
 
