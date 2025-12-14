@@ -17,9 +17,16 @@
   /* Or simply override the Navbar background directly */
   --ifm-navbar-background-color: #1b1b1d; /* Dark professional header */
   --ifm-navbar-link-color: #fff;
+
 }
 
 /* Dark mode overrides */
 [data-theme='dark'] {
   --ifm-color-primary: #25c2a0; /* A brighter teal for dark mode */
+}
+
+/* Widen the right TOC sidebar */
+div[class*="tableOfContents_node_modules"] {
+  min-width: 300px !important;
+  width: 300px !important;
 }
