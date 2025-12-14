@@ -205,43 +205,6 @@ This approach is fast, offline-capable, and typically reaches 85–90% accuracy 
 - Needs good example phrases per intent
 - Doesn't generalize to unseen intents
 
-### Balanced Approach: spaCy Word Vectors
-
-spaCy offers a middle ground with good accuracy and the benefit of integrating with other NLP tasks like entity recognition and parsing.
-
-**Example with spaCy:**
-
-```python
-import spacy
-
-nlp = spacy.load("en_core_web_md")
-
-intents = {
-    "BookFlight": ["book a flight", "flight schedule"],
-    "WeatherInfo": ["weather today", "is it raining"]
-}
-
-def classify(text):
-    doc = nlp(text)
-    scores = {intent: max(doc.similarity(nlp(ex)) for ex in examples)
-              for intent, examples in intents.items()}
-    return max(scores, key=scores.get)
-```
-
-[Download complete working example →](https://gmsharpe.github.io/examples/semantic-classifiers/spacy_similarity.py)
-
-**Pros:**
-- Good accuracy (75–80%)
-- Integrates with other NLP tasks (NER, POS tagging, parsing)
-- Moderate model size (~50 MB for `en_core_web_md`)
-- Simple API
-
-**Cons:**
-- Lower semantic understanding than transformer models
-- Requires downloading language models
-
-[Learn more in the spaCy documentation](https://spacy.io/usage/linguistic-features#vectors-similarity).
-
 ### Ultra-Lightweight: FastText
 
 For resource-constrained environments where speed and size are critical, FastText offers the smallest footprint with acceptable accuracy for well-defined domains.
@@ -301,6 +264,93 @@ print(classify("Book me a ticket to Paris"))  # Output: BookFlight
 
 [Download pretrained models from fasttext.cc](https://fasttext.cc/).
 
+## Semantic Router: Declarative Routing for Agents
+
+If you're building an agentic system where you need to route between multiple tools or agents, [Semantic Router](https://docs.aurelio.ai/semantic-router/) provides a declarative framework that abstracts away the similarity computation details.
+
+Unlike the manual approaches above, Semantic Router lets you define routes as Python objects and handles embedding selection, similarity computation, confidence thresholds, and fallback logic automatically. It works with **both local embeddings (free) and API-based encoders**.
+
+### How Semantic Router Works
+
+You define routes declaratively with example utterances, choose an encoder backend, and the library handles routing:
+
+**Option 1: Local with HuggingFace Encoder (Free, No API)**
+
+```python
+from semantic_router import Route, RouteLayer
+from semantic_router.encoders import HuggingFaceEncoder
+
+# Define routes declaratively
+routes = [
+    Route(
+        name="book_flight",
+        utterances=[
+            "Book me a flight",
+            "I need to book a flight",
+            "Find me flights to Paris",
+            "Schedule a flight"
+        ]
+    ),
+    Route(
+        name="weather",
+        utterances=[
+            "What's the weather like",
+            "Is it raining today",
+            "Tell me the forecast"
+        ]
+    )
+]
+
+# Use local sentence-transformers encoder (downloads once, ~90MB)
+encoder = HuggingFaceEncoder(name="sentence-transformers/all-MiniLM-L6-v2")
+router = RouteLayer(encoder=encoder, routes=routes)
+
+# Route user input
+result = router("Book me a flight to Tokyo")
+print(result.name)  # Output: "book_flight"
+```
+
+**Option 2: OpenAI Encoder (API-based)**
+
+```python
+from semantic_router.encoders import OpenAIEncoder
+
+# Use OpenAI's embeddings API (requires API key)
+encoder = OpenAIEncoder(api_key="your-api-key")
+router = RouteLayer(encoder=encoder, routes=routes)
+
+result = router("What's the weather in Berlin?")
+print(result.name)  # Output: "weather"
+```
+
+[Download complete working example →](https://gmsharpe.github.io/examples/semantic-classifiers/semantic_router.py)
+
+### Key Features
+
+- **Declarative API:** Define routes as objects with example utterances
+- **Multiple backends:** HuggingFace (local/free), OpenAI, Azure, Cohere
+- **Confidence thresholds:** Automatic handling of uncertain matches
+- **Production-ready:** Built-in error handling and fallback routes
+
+**Pros:**
+- Minimal boilerplate code
+- Works completely locally with HuggingFaceEncoder (no API costs)
+- Built specifically for agent/tool routing patterns
+- Handles edge cases (low confidence, no match) automatically
+- Easy to add or modify routes
+
+**Cons:**
+- Additional library dependency
+- Less control over exact similarity computation
+- Opinionated design (you accept their routing logic)
+- Local encoder option still requires ~90MB model download
+
+**When to use:**
+- Building AI agents with tool routing
+- Want declarative route definitions
+- Need production-grade error handling
+- Prefer framework over manual implementation
+
 ## Choosing the Right Approach
 
 **Quick decision matrix:**
@@ -314,6 +364,7 @@ print(classify("Book me a ticket to Paris"))  # Output: BookFlight
 - Use when: Maximum accuracy needed, privacy critical, stable intents
 - Deployment: Self-hosted, offline
 - Tradeoff: Highest resource use
+
 
 **Zero-Shot: Medium Local Model (DeBERTa-v3-base)**
 - Accuracy: ~90%
@@ -352,14 +403,6 @@ print(classify("Book me a ticket to Paris"))  # Output: BookFlight
 - Recommendation: Best overall choice for most production use cases
 - Tradeoff: Requires examples to define intent boundaries
 
-**spaCy (Word Vectors)**
-- Accuracy: 75-80%
-- Model size: ~50 MB
-- Speed: Fast (5-20ms per inference)
-- Use when: Already using spaCy for other NLP tasks, need entity recognition alongside classification
-- Deployment: Self-hosted, offline
-- Tradeoff: Lower accuracy than transformers, limited semantic understanding
-
 **FastText (Pretrained Embeddings)**
 - Accuracy: 60-70%
 - Model size: Under 200 MB (quantized: under 50 MB)
@@ -370,10 +413,10 @@ print(classify("Book me a ticket to Paris"))  # Output: BookFlight
 
 ### Decision Process
 
-1. **Maximum accuracy + no privacy concerns?** → Remote API (OpenAI/Claude) if budget allows
-2. **Need high accuracy (90%+) with privacy?** → Zero-Shot medium/large local model or SentenceTransformers
-3. **Want to define boundaries with examples?** → SentenceTransformers (best accuracy/resource) or FastText (most lightweight)
-4. **Already using spaCy?** → spaCy for integration benefits
+1. **Building an AI agent with tool routing?** → Semantic Router for declarative routing with minimal boilerplate
+2. **Maximum accuracy + no privacy concerns?** → Remote API (OpenAI/Claude) if budget allows
+3. **Need high accuracy (90%+) with privacy?** → Zero-Shot medium/large local model or SentenceTransformers
+4. **Want to define boundaries with examples?** → SentenceTransformers (best accuracy/resource) or FastText (most lightweight)
 5. **Severe resource constraints?** → FastText or Zero-Shot small model
 6. **Frequently changing intents?** → Zero-Shot (any size) for maximum flexibility
 7. **Best overall production balance?** → SentenceTransformers or Zero-Shot medium local model
@@ -392,8 +435,8 @@ All code examples from this article are available as runnable Python scripts:
 - [View all examples on GitHub](https://github.com/gmsharpe/gmsharpe.github.io/tree/main/static/examples/semantic-classifiers)
 - [Download zero_shot.py](/examples/semantic-classifiers/zero_shot.py) - Zero-shot classification with BART
 - [Download sentence_transformers.py](/examples/semantic-classifiers/sentence_transformers.py) - High-accuracy embeddings
-- [Download spacy_similarity.py](/examples/semantic-classifiers/spacy_similarity.py) - Balanced spaCy approach
 - [Download fasttext_similarity.py](/examples/semantic-classifiers/fasttext_similarity.py) - Ultra-lightweight FastText
+- [Download semantic_router.py](/examples/semantic-classifiers/semantic_router.py) - Declarative agent routing
 - [Download requirements.txt](/examples/semantic-classifiers/requirements.txt) - Python dependencies
 - [Setup instructions](/examples/semantic-classifiers/README.md)
 
