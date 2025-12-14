@@ -479,15 +479,14 @@ With multiple options across different paradigms, choosing the right approach de
 
 ## Complete Working Examples
 
-All code examples from this article are available as runnable Python scripts:
+All code examples from this article are available in the [semantic-classifiers examples folder](https://github.com/gmsharpe/gmsharpe.github.io/tree/main/static/examples/semantic-classifiers) on GitHub:
 
-- [View all examples on GitHub](https://github.com/gmsharpe/gmsharpe.github.io/tree/main/static/examples/semantic-classifiers)
-- [Download zero_shot.py](/examples/semantic-classifiers/zero_shot.py) - Zero-shot classification with BART
-- [Download sentence_transformers.py](/examples/semantic-classifiers/sentence_transformers.py) - High-accuracy embeddings
-- [Download fasttext_similarity.py](/examples/semantic-classifiers/fasttext_similarity.py) - Ultra-lightweight FastText
-- [Download semantic_router.py](/examples/semantic-classifiers/semantic_router.py) - Declarative agent routing
-- [Download requirements.txt](/examples/semantic-classifiers/requirements.txt) - Python dependencies
-- [Setup instructions](/examples/semantic-classifiers/README.md)
+- [zero_shot.py](https://github.com/gmsharpe/gmsharpe.github.io/blob/main/static/examples/semantic-classifiers/zero_shot.py) - Zero-shot classification with BART [download](https://raw.githubusercontent.com/gmsharpe/gmsharpe.github.io/main/static/examples/semantic-classifiers/zero_shot.py)
+- [sentence_transformers.py](https://github.com/gmsharpe/gmsharpe.github.io/blob/main/static/examples/semantic-classifiers/sentence_transformers.py) - High-accuracy embeddings [download](https://raw.githubusercontent.com/gmsharpe/gmsharpe.github.io/main/static/examples/semantic-classifiers/sentence_transformers.py)
+- [fasttext_similarity.py](https://github.com/gmsharpe/gmsharpe.github.io/blob/main/static/examples/semantic-classifiers/fasttext_similarity.py) - Ultra-lightweight FastText [download](https://raw.githubusercontent.com/gmsharpe/gmsharpe.github.io/main/static/examples/semantic-classifiers/fasttext_similarity.py)
+- [semantic_router.py](https://github.com/gmsharpe/gmsharpe.github.io/blob/main/static/examples/semantic-classifiers/semantic_router.py) - Declarative agent routing [download](https://raw.githubusercontent.com/gmsharpe/gmsharpe.github.io/main/static/examples/semantic-classifiers/semantic_router.py)
+- [requirements.txt](https://github.com/gmsharpe/gmsharpe.github.io/blob/main/static/examples/semantic-classifiers/requirements.txt) - Python dependencies [download](https://raw.githubusercontent.com/gmsharpe/gmsharpe.github.io/main/static/examples/semantic-classifiers/requirements.txt)
+- [README.md](https://github.com/gmsharpe/gmsharpe.github.io/blob/main/static/examples/semantic-classifiers/README.md) - Setup instructions [download](https://raw.githubusercontent.com/gmsharpe/gmsharpe.github.io/main/static/examples/semantic-classifiers/README.md)
 
 ## Conclusion
 
