@@ -11,9 +11,7 @@ import { Reference, References } from '@site/src/components/Reference';
 
 While building some of my first agentic workflows, I quickly realized the importance of taking ownership of the control flow. With it you can impose structure, reliability, safety, and governance on systems that are fundamentally designed to maximize autonomy while producing non-deterministic but measurable results. 
 
-Typical control flow components are too rigid and brittle, though, and rob your workflows of the agency you envisioned at the start.
-
-Semantic classifiers provide a means to understand the user's intent and help 'guide' the conversation.
+Typical control flow components are too rigid and brittle, though, and rob your workflows of the agency you envisioned at the start. Semantic classifiers provide a means to understand the user's intent and help 'guide' the conversation.
 
 ## Understanding Semantic Classification
 
@@ -35,15 +33,13 @@ As Masood noted [1], embeddings have become core infrastructure for many systems
 
 ## Two Approaches to Training-Free Classification
 
-There are two fundamentally different ways to build intent classifiers without training:
+I present two fundamentally different ways to build intent classifiers without training, though I'm sure there are others.
 
-**1. Zero-Shot Classification** - The model interprets your label names and decides which one best matches the input. You just provide label strings like `"BookFlight"` or `"WeatherInfo"`, and the model uses its built-in language understanding to classify. No examples needed.
+**1. Zero-Shot Classification** - An LLM (small - large) simply interprets all of the the information you provide, including any detail about the routes. You define the expected labels used for routing, e.g. `"BookFlight"` or `"WeatherInfo"`.  You may or may not provide examples, keywords, etc.  Your success with this approach depends on the model you choose, your prompt engineering wit, and any additional context or user input provided.
 
-**2. Embedding Similarity** - You provide a few example phrases for each intent, and the system finds which example set is most semantically similar to the input. This requires you to define what each intent "looks like" with examples.
+**2. Embedding Similarity** - In this approach you provide a few examples (or a lot), and the system finds which example set is most semantically similar to the input. This requires you to derive enough examples to cover the spectrum of ways a user may engage with your application.  In some cases this may be simple, but in others this may require quite a lot of examples to adequately capture the domain language.
 
-The trade-off is flexibility vs. control: zero-shot works with any labels you dream up, while embedding similarity requires examples but gives you more control over what matches what.
-
-Let's explore both approaches.
+From one angle the trade-off is flexibility vs. control: zero-shot works with any labels you dream up, while embedding similarity requires examples but gives you more control over what matches what.  Of course that flexibility comes at a cost, literally, and increasing latency depending on the size and location of the model.
 
 ## Zero-Shot Classification: Let the Model Decide
 
