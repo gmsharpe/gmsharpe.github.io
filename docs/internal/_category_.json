@@ -1,0 +1,11 @@
+{
+  "label": "Internal",
+  "position": 999,
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "title": "Internal Docs",
+    "description": "Internal documentation. Not shown in sidebar.",
+    "slug": "/internal"
+  }
+}
