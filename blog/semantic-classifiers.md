@@ -39,6 +39,8 @@ I present two fundamentally different ways to build intent classifiers without t
 
 **2. Embedding Similarity** - In this approach you provide a few examples (or a lot), and the system finds which example set is most semantically similar to the input. This requires you to derive enough examples to cover the spectrum of ways a user may engage with your application.  In some cases this may be simple, but in others this may require quite a lot of examples to adequately capture the domain language.
 
+[todo - add a bit about 'semantic vs embedding similarity' and the myriad of measurements]
+
 From one angle the trade-off is flexibility vs. control: zero-shot works with any labels you dream up, while embedding similarity requires examples but gives you more control over what matches what.  Of course that flexibility comes at a cost, literally, and increasing latency depending on the size and location of the model.
 
 ## Zero-Shot Classification: Let the Model Decide
