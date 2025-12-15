@@ -1,8 +1,10 @@
 ---
 title: "How to Build a Semantic Intent Classifier Without Training a Model"
 date: 2025-12-13
-author: Gary Sharpe
-tags: [nlp, machine-learning, embeddings, intent-classification]
+author: [gmsharpe]
+tags: [nlp, machine-learning, embeddings, intent-classification, agentic-ai, agents]
+keywords: [agents, agentic-ai, semantic-classification, routing, semantic-router]
+description: "Train-free semantic intent classification for agentic AI. Covers zero-shot and embedding approaches with detailed comparisons and Python examples."
 ---
 
 import { Reference, References } from '@site/src/components/Reference';
@@ -89,7 +91,7 @@ You can also use chat models like GPT-4, Claude, or Llama via API calls or local
 
 Here's an example using the `facebook/bart-large-mnli` model (large local variant):
 
-```python
+```python showLineNumbers
 from transformers import pipeline
 
 # Local model - downloads on first run, then cached
@@ -107,7 +109,7 @@ print(result)
 
 For a smaller footprint, swap the model:
 
-```python
+```python showLineNumbers
 # Lightweight local version
 classifier = pipeline(
     "zero-shot-classification", 
@@ -117,7 +119,7 @@ classifier = pipeline(
 
 Or use a remote API:
 
-```python
+```python showLineNumbers
 # Using OpenAI's API (requires API key)
 import openai
 
@@ -353,35 +355,7 @@ print(result.name)  # Output: "weather"
 
 ## Choosing the Right Approach
 
-With multiple options across different paradigms, choosing the right approach depends on your constraints and requirements. Here's a comprehensive guide:
-
-### Quick Decision Tree
-
-**Start here:** What's your primary constraint?
-
-1. **Building an agentic system with multiple tools?**
-   - → **Semantic Router** (with HuggingFaceEncoder for local, or OpenAIEncoder for API)
-   - Best for: Tool routing, multi-agent systems, declarative route definitions
-   
-2. **Need maximum accuracy (90%+) and budget allows?**
-   - → **Zero-Shot Large/Medium Local Model** OR **Remote API (GPT-4/Claude)**
-   - Best for: Production systems where accuracy is critical
-   
-3. **Need privacy/offline + high accuracy?**
-   - → **Zero-Shot Medium Local Model** (DeBERTa-v3-base) OR **SentenceTransformers**
-   - Best for: Enterprise deployments, sensitive data, air-gapped systems
-   
-4. **Want control over intent boundaries?**
-   - → **SentenceTransformers** (manual implementation)
-   - Best for: When you need examples to define precise boundaries
-   
-5. **Severe resource constraints (mobile/edge)?**
-   - → **FastText** OR **Zero-Shot Small Model**
-   - Best for: IoT devices, mobile apps, embedded systems
-   
-6. **Frequently changing intents?**
-   - → **Zero-Shot** (any variant) OR **Semantic Router**
-   - Best for: Rapid prototyping, evolving requirements
+With multiple options across different paradigms, here's a comprehensive comparison to guide your decision:
 
 ### Detailed Comparison Matrix
 
@@ -407,67 +381,6 @@ With multiple options across different paradigms, choosing the right approach de
 |--------|----------|------------|-----|-------|------|----------|
 | **Semantic Router + HF** | 85-90% | 90 MB | ~600 MB | 15-60ms | Free | Agent routing, declarative |
 | **Semantic Router + OpenAI** | 92-95% | 0 | 0 | 200ms-1s | $0.0001/call | Agent routing, easiest setup |
-
-### Common Scenarios
-
-**Scenario 1: Building a chatbot for customer support**
-- **Recommendation:** SentenceTransformers or Zero-Shot Medium
-- **Why:** Need good accuracy, privacy may matter, moderate resources available
-- **Example setup:** 5-10 intents (returns, orders, shipping, etc.)
-
-**Scenario 2: AI agent routing system (tools/agents selection)**
-- **Recommendation:** Semantic Router with HuggingFaceEncoder
-- **Why:** Declarative routes, built-in fallbacks, local/free
-- **Example setup:** 3-8 routes (web_search, calculator, database_query, etc.)
-
-**Scenario 3: Mobile app with limited resources**
-- **Recommendation:** FastText
-- **Why:** Smallest footprint, fastest inference, works on device
-- **Example setup:** 3-5 simple intents with predictable language
-
-**Scenario 4: Research/prototyping with changing requirements**
-- **Recommendation:** Zero-Shot (any size) or Semantic Router
-- **Why:** No need to collect examples, easy to add/change intents
-- **Example setup:** Rapidly test different intent structures
-
-**Scenario 5: High-accuracy production system (finance, healthcare)**
-- **Recommendation:** Zero-Shot Large Local or Remote API
-- **Why:** Maximum accuracy, can afford resources/costs
-- **Example setup:** Critical decision-making with audit requirements
-
-**Scenario 6: Edge device (IoT, embedded system)**
-- **Recommendation:** FastText (quantized)
-- **Why:** Runs on minimal hardware (&lt;50MB, &lt;300MB RAM)
-- **Example setup:** Simple command recognition on device
-
-### Making the Final Choice
-
-**Priority: Accuracy**
-- First choice: Zero-Shot Large Local or Remote API
-- Second choice: Zero-Shot Medium or SentenceTransformers
-- Third choice: FastText
-
-**Priority: Cost (minimize)**
-- First choice: FastText (smallest resources)
-- Second choice: SentenceTransformers or Zero-Shot Small
-- Third choice: Zero-Shot Medium/Large
-- Avoid: Remote APIs (ongoing costs)
-
-**Priority: Privacy/Offline**
-- First choice: SentenceTransformers or Zero-Shot Medium
-- Second choice: FastText or Zero-Shot Small/Large
-- Avoid: Remote APIs (data leaves your system)
-
-**Priority: Development Speed**
-- First choice: Semantic Router (declarative, minimal code)
-- Second choice: Zero-Shot (no examples needed)
-- Third choice: SentenceTransformers (need examples)
-- Last choice: FastText (need examples + manual similarity)
-
-**Priority: Flexibility (changing intents)**
-- First choice: Zero-Shot (any size) or Semantic Router
-- Second choice: SentenceTransformers (easy to update examples)
-- Last choice: FastText (requires recomputing embeddings)
 
 ### Tips for Improving Accuracy
 
