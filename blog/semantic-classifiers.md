@@ -1,7 +1,7 @@
 ---
 title: "How to Build a Semantic Intent Classifier Without Training a Model"
 date: 2025-12-13
-author: [gmsharpe]
+authors: [gmsharpe]
 tags: [nlp, machine-learning, embeddings, intent-classification, agentic-ai, agents]
 keywords: [agents, agentic-ai, semantic-classification, routing, semantic-router]
 description: "Train-free semantic intent classification for agentic AI. Covers zero-shot and embedding approaches with detailed comparisons and Python examples."
